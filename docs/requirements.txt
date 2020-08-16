@@ -1,3 +1,4 @@
 sphinxcontrib-fulltoc
 sphinx
 docutils
+jupyter_sphinx_theme
