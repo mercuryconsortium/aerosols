@@ -40,7 +40,7 @@ submit script ``orca.pbs`` is
    :caption: /home/software_test/orca/orca.pbs
 
    #!/bin/tcsh
-   #PBS -q mercury
+   #PBS -q _QUEUE_
    #PBS -l nodes=1:ppn=_NUMBER_OF_PROCESSORS_
    #PBS -l mem=_MEMORY_
    #PBS -l walltime=_WALLTIME_
@@ -59,16 +59,13 @@ submit script ``orca.pbs`` is
 
    run-orca-4.2.1.csh $FILE $PBS_JOBID
 
-where ``_MEMORY_``, ``_NUMBER_OF_PROCESSORS_``, ``_WALLTIME_``, and ``_INPUT_``
-are defined by the user. Note that ``_NUMBER_OF_PROCESSORS_`` must match the
-``nproc`` parameter in the ORCA input file.
 
-On Skylight, the SLURM submit script ``orca.slurm`` is
+and on Skylight, the SLURM submit script ``orca.slurm`` is
 
 .. code-block:: bash
    :caption: /home/software_test/orca/orca.slurm
 
-   #SBATCH -p stdmem
+   #SBATCH -p _QUEUE_
    #SBATCH --nodes=1
    #SBATCH --ntasks-per-node=_NUMBER_OF_PROCESSORS_
    #SBATCH --mem=_MEMORY_
@@ -84,6 +81,22 @@ On Skylight, the SLURM submit script ``orca.slurm`` is
    cd $SLURM_SUBMIT_DIR
 
    run-orca-4.2.1.csh $FILE $SLURM_JOBID
+
+
+where ``_MEMORY_``, ``_NUMBER_OF_PROCESSORS_``, ``_WALLTIME_``, and ``_INPUT_``
+are defined by the user. Note that ``_NUMBER_OF_PROCESSORS_`` must match the
+``nproc`` parameter in the ORCA input file.
+
+  ====================== ====================================
+  Input                  Description
+  ====================== ====================================
+  _QUEUE_                the batch queue to submit the job to
+  _MEMORY_               RAM per processor
+  _NUMBER_OF_PROCESSOR_  number of processors to user
+  _WALLTIME_             the calculation time to request
+  _INPUT_                input file name (without the suffix)
+  ====================== ====================================
+
 
 The ORCA Input File
 ===================
@@ -113,25 +126,11 @@ the following form:
     _ATOMIC_COORDINATES_
   *
 
-where ``_METHOD_``, ``_BASIS_``, ``_NUMBER_OF_PROCESSORS_``, and ``_ATOMIC_COORDINATES_`` are defined by
-the user. The unique lines of each template input file are as follows:
+where ``_METHOD_``, ``_BASIS_``, ``_NUMBER_OF_PROCESSORS_``, and
+``_ATOMIC_COORDINATES_`` are defined by the user. The unique lines of each
+template input file are as follows:
 
-.. code-block:: none
-   :caption: /home/software_test/orca/dlpno-ccsdt-avxz.inp
 
-   ! DLPNO-CCSD(T) aug-cc-pV_X_Z aug-cc-pV_X_Z/C VeryTightSCF
-
-.. code-block:: none
-   :caption: /home/software_test/orca/dlpno-ccsdt-f12-vxz.inp
-
-   ! DLPNO-CCSD(T)-F12 cc-pV_X_Z-F12 cc-pV_X_Z-F12-CABS cc-pV_X_Z/C VeryTightSCF
-
-.. code-block:: none
-   :caption: /home/software_test/orca/ri-mp2-f12-vxz.inp
-
-   ! F12-RI-MP2 cc-pV_X_Z-F12 cc-pV_X_Z-F12-CABS cc-pV_X_Z/C VeryTightSCF
-
-where ``_x_`` is defined by the user.
 
 An Example Calculation
 ======================
